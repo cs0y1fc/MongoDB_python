@@ -1,25 +1,17 @@
 from pymongo import MongoClient
 
-def connect(database):
-    try:
+def connect():
         client = MongoClient("mongodb+srv://root:2l4K6A2nl4tXDKmU@cluster0.e1tuqmv.mongodb.net/")
-        db = client[database]
+        db = client["test"]
         print("Conexion a MongoDB establecida!")
         return db
-    
-    except Exception as e:
-        print("Error de conexion a MongoDB: " + e)
 
-def insertUser(collection, data):
-    db = connect("test")
+def insertUser(db, collection, data):
     db[collection].insert_one(data)
     print("Usuario registrado con exito")
 
-def findUsers(collection):
-    db = connect("test")
+def findUsers(db, collection):
     return db[collection].find()
 
-def testFindOne(collection, email):
-    db = connect("test")
-    result = db[collection].find_one({"email": email})
-    return result
+def find_by_email(db, collection, email):
+    return db[collection].find_one({"email": email})
