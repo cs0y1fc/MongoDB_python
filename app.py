@@ -1,4 +1,4 @@
-import database, utils
+import database, utils, datetime
 
 def app():
 
@@ -10,10 +10,13 @@ def app():
         print("1: Añadir un usuario")
         print("2: Ver usuarios")
         print("3: Buscar usuario por email")
+        print("4: TODO: Eliminar usuario por email")
+        print("5: TODO: Login")
         print("----- Purchases -----")
-        print("4: Añadir un compra (embedded)")
-        print("5: Añadir un compra (referenced)")
+        print("6: Añadir un compra (embedded)")
+        print("7: Añadir un compra (referenced)")
         print("Escribe 'exit' para salir")
+
 
         opcion = input("Seleccione una opción: ")
 
@@ -49,6 +52,29 @@ def app():
                 print(user)
             else:
                 print("Usuario no encontrado")
+
+        if opcion == "4":
+            email = input("Digues quin usuari vols eliminar. Email: ")
+            user = database.find_by_email(db, "users", email)
+            if user:
+                database.delete_by_email(db, "users", email)
+                print("Usuario borrado")
+            else:
+                print("Usuario no encontrado")
+
+
+        if opcion == "6":
+            email = input("Email del usuario: ")
+            producto = input("Producto: ")
+            cantidad = input("Cantidad: ")
+            precio = input("Precio: ")
+            data = {
+                "producto": producto,
+                "cantidad":cantidad,
+                "precio": precio,
+                "fecha": datetime.datetime.now()
+            }
+            database.insertPurchase(db, "users", email, data)
 
         if opcion == "exit":
             print("Bye")
